@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<title>구구단을 외자</title>
+	</head>
+	<script>
+		window.onload=function(){
+			let num1 = Math.floor(Math.random()*9);
+			let num2 = Math.floor(Math.random()*9);
+			let result = num1 * num2;
+			function quiz(){
+				num1 = Math.floor(Math.random()*9);
+				num2 = Math.floor(Math.random()*9);
+				result = num1 * num2;
+			}
+			let btnStart = document.querySelector(".btnStart");
+			let answer = document.querySelector(".answer");
+			let btnAns = document.querySelector(".btnAns");
+			let info = document.querySelector("#info");
+			function start(){
+				let gameStart = document.querySelector(".gameStart");
+				gameStart.classList.add("start");
+				let quiz = info.innerHTML = (num1+"*"+num2+"=?");
+				btnAns.onclick=function(){
+					alert(result);
+				}
+				let form = document.querySelector(".form");
+				form.classList.add("on");
+				form.addEventListener('submit',function(e){
+					e.preventDefault();
+					console.log(num1, num2);
+					if(result === Number(answer.value)){
+						console.log(result,Number(answer.value));
+						alert(answer.value);
+						num1 = Math.floor(Math.random()*9);
+						num2 = Math.floor(Math.random()*9);
+						result = num1 * num2;
+						quiz;
+						answer.value = '';
+						answer.focus();
+					}else{
+						alert("땡");
+						console.log(result, Number(answer.value));
+						answer.value = '';
+						answer.focus();
+					}
+				});
+				btnStart.style.display="none";
+			};
+			let btnNext = document.querySelector(".btnNext");
+			btnNext.setAttribute('type','submit');
+			let btnEnd = document.querySelector(".btnEnd");
+			function end(){
+				if(btnEnd.value == ''){
+					btnEnd.innerHTML = "다시시작";
+					btnEnd.value = "replay";
+					answer.disabled = true;
+					btnNext.disabled = true;
+					btnAns.disabled = true;
+					info.innerHTML = ("종료");
+				}else{
+					answer.disabled = false;
+					btnNext.disabled = false;
+					btnAns.disabled = false;
+					answer.value = '';
+					btnEnd.innerHTML="종료";
+					btnEnd.value = '';
+					info.innerHTML = (num1+"*"+num2+"=?");
+					btnStart.style.display="block";
+				}
+				btnStart.style.display="none";
+			}
+			btnStart.addEventListener("click",start);
+			btnEnd.addEventListener("click",end);
+		}
+	</script>
+	<style media="screen">
+		body{margin:0;background:#fae78e;}
+		.wrap{text-align:center;}
+		.gameStart h1{font-size:35px;margin-top:250px;}
+		.start h1{font-size:15px; margin-top:20px;}
+		.btnStart{background:none;border:1px solid #666;padding:15px;}
+		.btnStart.off{display:none;}
+		.start + #info{margin-top:230px;}
+		#info{font-size:20px;}
+		.form{display:none;opacity:0;margin-top:20px;}
+		.form.on{display:block;opacity:1;transition: 0.1s easy;animation: fade-in 1s;}
+		.form .answer{width:150px;height:25px;}
+		.form button{padding:7px 15px;border:none;background:#333;color:#fff;}
+		.form button:disabled{color:#999;}
+	</style>
+	<body>
+		<div class="wrap">
+			<div class="gameStart">
+				<h1>구구단을 외자</h1>
+				<button type="button" class="btnStart">구구단 시작</button>
+			</div>
+
+			<div id="info"></div>
+			<form class="form">
+				<input type="text" class="answer" name="" value="">
+				<button type="button" class="btnNext" name="button">다음</button>
+				<button type="button" class="btnAns" name="button">정답</button>
+				<button type="button" class="btnEnd" name="button">종료</button>
+			</form>
+		</div>
+
+	</body>
+</html>
